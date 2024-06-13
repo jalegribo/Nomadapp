@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
-import Curso from "./Curso.js";
+import Curso from "./cursoModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -14,7 +14,7 @@ const Modulo = db.define('modulo', {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-            model: Curso,
+             // Assuming Curso model is defined in another file
             key: 'id_curso'
         }
     },

@@ -6,6 +6,8 @@ import pkg from 'pg';
 import dotenv from 'dotenv';
 import userRoutes from './routes/UserRoute.js';
 import authRoutes from './routes/AuthRoute.js';
+import courseRoutes from './routes/CourseRoute.js';
+import { swaggerDocs, swaggerUi } from './swaggerConfig.js';
 
 const { Pool } = pkg;
 dotenv.config();
@@ -13,7 +15,6 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Configuración de la base de datos
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -21,8 +22,8 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
 });
-app.use(bodyParser.json());
 
+app.use(bodyParser.json());
 app.use(cors());
 
 app.use(session({
@@ -32,18 +33,11 @@ app.use(session({
   cookie: { secure: false } // Cambia a true si estás utilizando HTTPS
 }));
 
-app.get('/test', async (req, res) => {
-  try {
-    const result = await pool.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
-    res.status(200).json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error al conectar a la base de datos');
-  }
-});
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.use('/api',userRoutes)
+app.use('/api', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/course', courseRoutes);
 
 // Iniciar el servidor
 app.listen(port, () => {

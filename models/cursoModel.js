@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
+import Modulo from "./moduloModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -32,5 +33,6 @@ const Curso = db.define('curso', {
     freezeTableName: true,
     timestamps: false
 });
+
 
 export default Curso;

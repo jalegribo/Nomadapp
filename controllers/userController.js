@@ -1,4 +1,5 @@
 import UserService from '../services/UserService.js';
+import courseService from '../services/CourseService.js';
 class UserController {
     async getUsers(req, res) {
         try {
@@ -49,5 +50,21 @@ class UserController {
             res.status(500).json({ message: error.message });
         }
     }
+    async addMyCourse(req, res) {
+        try {
+            const user = await UserService.getUserById(req.session.id);
+            const course = await courseService.getCourseById(req.body.id_curso);
+            if (user && course) {
+                await UserService.addMyCourse(user, course);
+                res.status(200).json({ message: 'Course added to user' });
+            } else {
+                res.status(404).json({ message: 'User or course not found' });
+            }
+        }catch (error) {
+         
+          res.status(500).json({ message: error.message });
+        }
+    }    
+            
 }
 export default new UserController();
