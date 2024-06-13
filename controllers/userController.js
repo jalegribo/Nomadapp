@@ -8,10 +8,9 @@ class UserController {
             res.status(500).json({ message: error.message });
         }
     }
-
     async getUserById(req, res) {
         try {
-            const user = await UserService.getUserById(req.params.id);
+            const user = await UserService.getUserById(req.body.id_usuario);
             if (user) {
                 res.json(user);
             } else {
@@ -23,21 +22,20 @@ class UserController {
     }
 
     async createUser(req, res) {
-        try {
-            req.body = JSON.parse(req.body);
-            console.log(req.body);  
-            
-            const newUser = await UserService.createUser(req.body);
-            res.status(201).json(newUser);
+        try {                                
+            const newUser = await UserService.createUser(req.body);  
+            const idUser = newUser.id_usuario;     
+            const newLogin = await UserService.createUserLogin({...req.body,id_usuario:idUser});        
+            res.status(201).json([newLogin, newUser]);                        
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            res.status(500)
         }
     }
 
     async updateUser(req, res) {
-        try {
-            const updatedUser = await UserService.updateUser(req.params.id, req.body);
-            res.json(updatedUser);
+        try {            
+            const updatedUser = await UserService.updateUser(req.session.id,req.body);
+            res.status(200).json({message: updatedUser});
         } catch (error) {
             res.status(400).json({ message: error.message });
         }

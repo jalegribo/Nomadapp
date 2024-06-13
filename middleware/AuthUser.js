@@ -12,7 +12,7 @@ export const verifyUser = async(req, res, next) => {
     // Buscamos al usuario en la base de datos usando su UUID almacenado en la sesión
     const user = await Users.findOne({
         where: {
-            uuid: req.session.userId
+            id_usuario: req.session.userId
         }
     });
 

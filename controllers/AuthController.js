@@ -3,11 +3,11 @@ import AuthService from '../services/AuthService.js';
 class AuthController {
     async login(req, res) {
         try {
-            const { email, password } = req.body;
-            const user = await AuthService.login(email, password);
-
+            const { username, password } = req.body;
+            const user = await AuthService.login(username, password);
+            
             req.session.userId = user.id_usuario; // Guarda el ID del usuario en la sesión
-            res.status(200).json({ message: 'Login successful', user });
+            res.status(200).json({ message: 'Login successful' });
         } catch (error) {
             res.status(400).json({ message: error.message });
         }

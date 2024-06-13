@@ -23,7 +23,7 @@ const LoginUser = db.define('login_user', {
         allowNull: false,
         validate: {
             notEmpty: true,
-            len: [3, 20]
+            isEmail: true
         }
     },
     password: {
