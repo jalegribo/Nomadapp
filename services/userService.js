@@ -4,6 +4,7 @@ import Users from '../models/userModel.js';
 import curso from '../models/cursoModel.js';
 import cursoUsuario from '../models/cursoUsuarioModel.js';
 import LoginUser from '../models/loginUserModel.js';
+import RolUsuario from '../models/rolUsuarioModel.js';
 import bcrypt from 'bcrypt';
 
 class UserService {
@@ -22,14 +23,18 @@ class UserService {
     }
   
     async getUserByEmail(email) {      
+    
       const user = await Users.findOne({ where: { email: email } });
       return user;
+   
     }
 
     async createUser(userData) {
       try{        
-        const newUser = await Users.create(userData);        
-        return newUser
+        const newUser = await Users.create(userData);
+        const rol = await Rol.findOne({ where: { nombre_rol: userData.rol } }); 
+        const rol_usuario = await RolUsuario.create({id_usuario: newUser.id_usuario, id_rol: rol.id_rol})    
+        return {newUser,rol_usuario}
       }catch(error){
         console.log(error);
       }      
@@ -40,7 +45,7 @@ class UserService {
           id_usuario:userData.id_usuario,
           username:userData.email,
           password:bcrypt.hashSync(userData.password, 10)
-        }
+        }        
         const newLogin = await LoginUser.create(data);        
         return newLogin
       }catch(error){
@@ -49,7 +54,7 @@ class UserService {
     }
     async updateUser(id, data) {    
         const user = await Users.findOne({ where: { email :data.email } });
-        console.log(user);
+        
         try{
             if(user){
                 await Users.update(data, {where: {id_usuario : user.id_usuario}});

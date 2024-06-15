@@ -1,4 +1,4 @@
-import Users from "../models/UserModel.js";
+import UserService from "../services/userService.js"
 
 // Middleware para verificar si un usuario está autenticado
 export const verifyUser = async(req, res, next) => {
@@ -10,11 +10,7 @@ export const verifyUser = async(req, res, next) => {
     }
 
     // Buscamos al usuario en la base de datos usando su UUID almacenado en la sesión
-    const user = await Users.findOne({
-        where: {
-            id_usuario: req.session.userId
-        }
-    });
+    const user = await UserService.getUserById(req.session.userId);
 
     // Si el usuario no existe, devolvemos un mensaje de error 404 (No encontrado)
     if (!user) return res.status(404).json({msg: "Usuario no encontrado"});
@@ -33,17 +29,13 @@ export const verifyUser = async(req, res, next) => {
 export const adminOnly = async(req, res, next) => {
 
     // Buscamos al usuario en la base de datos usando su UUID almacenado en la sesión
-    const user = await Users.findOne({
-        where: {
-            uuid: req.session.userId
-        }
-    });
-
+    const user = await UserService.getUserById(req.session.userId);
+    
     // Si el usuario no existe, devolvemos un mensaje de error 404 (No encontrado)
     if (!user) return res.status(404).json({msg: "Usuario no encontrado"});
 
     // Si el rol del usuario no es "admin", devolvemos un mensaje de error 403 (Prohibido)
-    if (user.rol !== "admin") return res.status(403).json({msg: "Acceso prohibido"});
+    if (user.rol !== "administrador") return res.status(403).json({msg: "Acceso prohibido"});
 
     // Si el usuario es administrador, permitimos el acceso llamando a la siguiente función en la cadena de middlewares
     next();

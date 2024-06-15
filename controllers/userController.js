@@ -25,7 +25,7 @@ class UserController {
     async createUser(req, res) {
         try {                                
             const newUser = await UserService.createUser(req.body);  
-            const idUser = newUser.id_usuario;     
+            const idUser = newUser.newUser.dataValues.id_usuario;     
             const newLogin = await UserService.createUserLogin({...req.body,id_usuario:idUser});        
             res.status(201).json([newLogin, newUser]);                        
         } catch (error) {

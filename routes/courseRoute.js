@@ -1,5 +1,5 @@
 import express from "express";
-import {verifyUser} from '../middleware/AuthUser.js';
+import {verifyUser,adminOnly} from '../middleware/AuthUser.js';
 import courseController from "../controllers/courseController.js";
 import { validateCourse } from "../middleware/validateCourse.js";
 import { validateModule } from "../middleware/validateModulo.js";
@@ -53,7 +53,7 @@ router.get('/courses', courseController.getCourses);
  *       500:
  *         description: Error en el servidor
  */
-router.post('/create-course', verifyUser, validateCourse, courseController.createCourse);
+router.post('/create-course', adminOnly, validateCourse, courseController.createCourse);
 
 /**
  * @swagger

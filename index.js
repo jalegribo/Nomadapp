@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import pkg from 'pg';
 import dotenv from 'dotenv';
-import userRoutes from './routes/UserRoute.js';
+import userRoutes from ('./routes/UserRoute.js');
 import authRoutes from './routes/AuthRoute.js';
 import courseRoutes from './routes/CourseRoute.js';
 import { swaggerDocs, swaggerUi } from './swaggerConfig.js';

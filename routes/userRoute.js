@@ -67,15 +67,37 @@ router.post('/users/', verifyUser, UserController.getUserById);
  *           schema:
  *             type: object
  *             required:
- *               - username
- *               - password
+ *               - nombre
+ *               - apellido
+ *               - tipo_dni
+ *               - dni
+ *               - fecha_nacimiento
  *               - email
+ *               - telefono
+ *               - codigo_postal
+ *               - rol
+ *               - password
  *             properties:
- *               username:
+ *               nombre:
+ *                 type: string
+ *               apellido:
+ *                 type: string
+ *               tipo_dni:
+ *                 type: string
+ *               dni:
+ *                 type: string
+ *               fecha_nacimiento:
+ *                 type: string
+ *                 format: date
+ *               email:
+ *                 type: string
+ *               telefono:
+ *                 type: string
+ *               codigo_postal:
+ *                 type: string
+ *               rol:
  *                 type: string
  *               password:
- *                 type: string
- *               email:
  *                 type: string
  *     responses:
  *       201:
@@ -83,7 +105,8 @@ router.post('/users/', verifyUser, UserController.getUserById);
  *       500:
  *         description: Error en el servidor
  */
-router.post('/Create-users', validateUser, UserController.createUser);
+
+router.post('/Create-users', /*validateUser,*/ UserController.createUser);
 
 /**
  * @swagger
@@ -150,5 +173,6 @@ router.patch('/users/', verifyUser, validateUpdateUser, UserController.updateUse
  *         description: Error en el servidor
  */
 router.delete('/users/', verifyUser, UserController.deleteUser);
+
 
 export default router;

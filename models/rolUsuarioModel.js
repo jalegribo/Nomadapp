@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
-import Usuario from "./Usuarios.js";
-import Rol from "./Rol.js";
+import Usuario from "./userModel.js";
+import Rol from "./rolModel.js";
 
 const { DataTypes } = Sequelize;
 
