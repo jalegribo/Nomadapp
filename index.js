@@ -6,7 +6,7 @@ import pkg from 'pg';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoute.js';
 import authRoutes from './routes/AuthRoute.js';
-import courseRoutes from './routes/CourseRoute.js';
+import courseRoutes from './routes/courseRoute.js';
 import { swaggerDocs, swaggerUi } from './swaggerConfig.js';
 
 const { Pool } = pkg;
